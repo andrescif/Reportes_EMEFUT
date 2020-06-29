@@ -109,16 +109,11 @@ expand_grid(a,b)
 llave_categorias_emefut <- as.data.frame(expand_grid(a,b))
 rm(a)
 rm(b)
-[,1:19]
-[(,1:21), ncol(1),nrow(21)]
-list(c(1:21))
-a_a<- list(c(1:21))
 a <- levels(categoria_datos_junio$Sede)
-cbind(a,a_a)
-View(a_a)
 rm(a)
 rm(a_a)
 View(llave_categorias_emefut)
+
 #Formulación de la llave
 names(llave_categorias_emefut) <- c("Sede","Categoría")
 View(llave_categorias_emefut)
@@ -282,6 +277,20 @@ InformeFinal_junio <- merge(categoria_datos_junio,
 profe_datos,
 key=(CAT_EMEFUT))
 View(InformeFinal_junio)
+InformeFinal_junio$Sede <- NULL
+InformeFinal_junio$Categoría <- NULL
+InformeFinal_junio$CAT_EMEFUT <- NULL
+
+#Reordenar y filtrar sólo los datos únicos para quedar con la tabla final.  
+InformeFinal_junio <- InformeFinal_junio[,c(4,5,1,2,3)]
+
+InformeFinal_junio %>%
+  distinct()
+
+InformeFinal_junio <- InformeFinal_junio %>%
+  distinct()
+
+
 
 
 
