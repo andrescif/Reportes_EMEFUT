@@ -94,31 +94,18 @@ save(profe_datos,
 levels(categoria_datos_junio$Sede)
 a <- levels(categoria_datos_junio$Sede)
 b <- levels(categoria_datos_junio$Categoría)
-a*b
-combn(a,b)
-?combn
-combn(a,b,m="all")
-combn(a,b,m=100)
-combn(a,b,m=1)
-a+b
-facs(a)
-list(facs(a))
-rbind(a,b)
-expand_grid(a,b)
-21*7
+
 llave_categorias_emefut <- as.data.frame(expand_grid(a,b))
 rm(a)
 rm(b)
-a <- levels(categoria_datos_junio$Sede)
-rm(a)
-rm(a_a)
+
 View(llave_categorias_emefut)
 
 #Formulación de la llave
 names(llave_categorias_emefut) <- c("Sede","Categoría")
 View(llave_categorias_emefut)
-llave_categorias_emefut$a[llave_categorias_emefut$Sede=="Alameda"] <- 1
-View(llave_categorias_emefut)
+
+
 levels(llave_categorias_emefut$Sede)
 llave_categorias_emefut$Sede<- as.factor(llave_categorias_emefut$Sede)
 llave_categorias_emefut$Categoría <- as.factor(llave_categorias_emefut$Categoría)
@@ -162,7 +149,7 @@ file = "Numeracion para Categorias EMEFUT")
 View(profe_datos)
 datos_junio$Sede<- as.factor(datos_junio$Sede)
 View(datos_junio)
-View(datos_junio)
+
 datos_junio$a[datos_junio$Sede=="Alameda"] <- 1
 datos_junio$a[datos_junio$Sede=="Bethania"] <- 2
 datos_junio$a[datos_junio$Sede=="Campo Marte"] <- 3
@@ -233,8 +220,7 @@ profe_datos$b <- NULL
 rm(llave_categorias_emefut)
 View(profe_datos)
 levles(profe_datos$Sede)
-levels(profe_datos$Sedes)
-levels(profe_datos$Sede)
+
 profe_datos$a[profe_datos$Sede=="MIlles Rock"] <- 14
 profe_datos$a[profe_datos$Sede=="Proyecto"] <- 18
 profe_datos$a[profe_datos$Sede=="Alameda"] <- 1
@@ -290,6 +276,9 @@ InformeFinal_junio %>%
 InformeFinal_junio <- InformeFinal_junio %>%
   distinct()
 
+#Guardar el informe final
+save(InformeFinal_junio,
+     file = "Informe de trabajo julio 2020")
 
 
 
