@@ -2,7 +2,7 @@ library(haven)
 library(tidyverse)
 library(stringr)
 
-#-------------------------CARGAR DATOS Y NOMBRAR VARIABLES---------------------------------#
+#-------------------------CARGAR DATOS Y NOMBRAR VARIABLES---------------------------------
 Avances.hasta.domingo.28.de.junio <- 
   read.csv("~/R Projects/Reportes_EMEFUT/Datos/Avances hasta domingo 28 de junio.csv")
 Datos.profesores_categorias.EMEFUT <- 
@@ -22,7 +22,7 @@ names(datos) <-  c("Fecha de reporte","Fecha de contacto",
 names(Datos.profesores_categorias.EMEFUT) <- c("Fecha de reporte","Nombre del Profesor",
                                                "Sede","Categoría","NIT")
 
-#-------------------------------CORRECCION DE DATOS CON ERRORES---------------------------#
+#-------------------------------CORRECCION DE DATOS CON ERRORES---------------------------
 datos[218,"Llamadas realizadas"] <- 15
 datos[539,"Llamadas realizadas"] <- 11
 datos[393,"Llamadas realizadas"] <- 16
@@ -55,7 +55,7 @@ datos[2988, "Mensajes enviados"] <- 25
 datos[3182, "Mensajes enviados"] <- 11
 rm(Avances.hasta.domingo.28.de.junio)
 
-#--------------------CREAR Y UNIR BASES DE DATOS PARA ANALISIS-----------------------------#
+#--------------------CREAR Y UNIR BASES DE DATOS PARA ANALISIS-----------------------------
 
 #Separar las categorías para que todos tengan sólo una
 Datos.profesores_categorias.EMEFUT %>%
@@ -89,6 +89,5 @@ profe_datos <- subset.data.frame(profe_datos,
                                  select = c("Sede","Categoría","Nombre del Profesor","NIT"))
 save(profe_datos,
      file = "Sedes_Categorías_Profesores")
-
 
 
