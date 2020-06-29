@@ -280,6 +280,8 @@ InformeFinal_junio <- InformeFinal_junio %>%
 save(InformeFinal_junio,
      file = "Informe de trabajo julio 2020")
 
+write.csv(InformeFinal_junio,
+          file = "Informe RRHH EMEFUT junio 2020")
 
 
 
