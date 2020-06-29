@@ -60,20 +60,35 @@ rm(Avances.hasta.domingo.28.de.junio)
 #Separar las categorías para que todos tengan sólo una
 Datos.profesores_categorias.EMEFUT %>%
   separate(Categoría,
-           c("Categoria","Cateogira2"),
+           c("Categoría","Cateogira2"),
            ",")
 
 profe_datos <- Datos.profesores_categorias.EMEFUT %>%
   separate(Categoría,
-           c("Categoria","Cateogira2"),",")
+           c("Categoría","Cateogira2"),",")
 
+#Corregir tipos de variables
+datos$Sede <- as.factor(datos$Sede)
+datos$Categoría <- as.factor(datos$Categoría)
+profe_datos$Categoría <- as.factor(profe_datos$Categoría)
+profe_datos$Cateogira2 <- as.factor(profe_datos$Cateogira2)
 
+as.Date(datos$`Fecha de contacto`,format="%Y-%m-%d")
+datos$`Fecha de contacto` <- as.Date(datos$`Fecha de contacto`,format="%Y-%m-%d")
 
+#Solo los datos de junio
+datos %>%
+  filter(datos$`Fecha de contacto`>"2020-05-31"&
+           datos$`Fecha de contacto`<"2020-07-01")
 
+datos_junio <- datos %>%
+  filter(datos$`Fecha de contacto`>"2020-05-31"&
+           datos$`Fecha de contacto`<"2020-07-01")
 
-
-
-
+profe_datos <- subset.data.frame(profe_datos,
+                                 select = c("Sede","Categoría","Nombre del Profesor","NIT"))
+save(profe_datos,
+     file = "Sedes_Categorías_Profesores")
 
 
 
