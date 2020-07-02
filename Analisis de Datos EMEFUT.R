@@ -365,10 +365,13 @@ levels(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
 Solo_entrenadores$FUNCION <- "Entrenador de Alto Desempeño"
 Solo_entrenadores <- Solo_entrenadores[,c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")]
 
-
-  
-  
-  
+#Unir las tres bases de datos en una sola
+rbind(Solo_encargados,
+      Solo_profes)
+profe_datos <-  rbind(Solo_encargados,
+                      Solo_profes) 
+profe_datos<- rbind(profe_datos,
+      Solo_entrenadores)  
 
   
   
