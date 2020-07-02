@@ -372,10 +372,47 @@ profe_datos <-  rbind(Solo_encargados,
                       Solo_profes) 
 profe_datos<- rbind(profe_datos,
       Solo_entrenadores)  
+#Limpiar mi area de trabajo
+rm(datos)
+rm(Datos.profesores_categorias.EMEFUT)
+rm(InformeFinal_junio)  
+rm(Solo_encargados)  
+rm(Solo_entrenadores)  
+rm(Solo_profes)
 
-  
-  
-  
-  
+#Limpiar la base de datos de resultados de la sub-15 y sub-18
+levels(categoria_datos_junio$Categoría)
+table(categoria_datos_junio$Categoría=="Sub-15")
+table(categoria_datos_junio$Categoría=="Sub-18")
+categoria_datos_junio <- subset.data.frame(categoria_datos_junio,
+                  categoria_datos_junio$Categoría!="Sub-15")
+categoria_datos_junio <- subset.data.frame(categoria_datos_junio,
+                                           categoria_datos_junio$Categoría!="Sub-18")
+
+#Unir en una sóla fuente de datos
+profe_datos_union<- profe_datos %>%
+  select("NOMBRE","FUNCION","SEDE","CATEGORIA") 
+names(categoria_datos_junio) <- c("SEDE","CATEGORIA","LLAMADAS_JUNIO","MENSAJES_JUNIO",
+                                  "ENTRENOS_JUNIO")
+categoria_datos_junio_union <- subset.data.frame(categoria_datos_junio,
+                                                 (categoria_datos_junio$SEDE!="Alameda"&
+                                                    categoria_datos_junio$SEDE!="Limón"&
+                                                    categoria_datos_junio$SEDE!="Maestro"&
+                                                    categoria_datos_junio$SEDE!="Paraiso 2"))
+FINAL_JUNIO_EMEFUT <- merge(categoria_datos_junio_union,
+                            profe_datos_union,
+                            key=("SEDE"&"CATEGORIA"),
+                            all = TRUE)
+FINAL_JUNIO_EMEFUT <- FINAL_JUNIO_EMEFUT %>%
+  group_by(SEDE,CATEGORIA) %>%
+  summarise(NOMBRE,FUNCION,LLAMADAS_JUNIO=sum(LLAMADAS_JUNIO,na.rm = TRUE),
+            MENSAJES_JUNIO=sum(MENSAJES_JUNIO,na.rm = TRUE),
+            ENTRENOS_JUNIO=sum(ENTRENOS_JUNIO,na.rm = TRUE))
+#Limpieza final de datos para publicación
+
+
+
+
+
 
 
