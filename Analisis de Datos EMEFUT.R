@@ -314,7 +314,7 @@ Solo_encargados_A$CAT_1 <- NULL
 names(Solo_encargados_A) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
 Solo_encargados$CAT_2 <- NULL
 names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
-#Runidos en una sola base de datos de encargados y eliminamos las demas
+#Reunidos en una sola base de datos de encargados y eliminamos las demas
 Solo_encargados <- rbind(Solo_encargados,
       Solo_encargados_A)
 rm(Solo_encargados_A)
@@ -345,12 +345,34 @@ Solo_profes <- rbind(Solo_profes,
                      Solo_profes_A)
 rm(Solo_profes_A)
 
+#Entrenadores base de datos
+levels(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
+Solo_entrenadores <- subset.data.frame(Datos_Encargados_Profesores_EMEFUT,
+                                       Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.=="Entrenador de Alto Desempeño EMEFUT (sólo entrenadores titulares)")
+names(Solo_entrenadores)
+Solo_entrenadores <- Solo_entrenadores %>%
+  select(c("X.Cuál.es.su.nombre..2",
+           "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted..2"))
+levels(categoria_datos_junio$Sede)
+names(Solo_entrenadores) <- c("NOMBRE","TELEFONO_CONTACTO")
+show(Solo_entrenadores$NOMBRE)
+Solo_entrenadores$SEDE <- NA
+Solo_entrenadores$SEDE[Solo_entrenadores$NOMBRE=="Servio Haens Rodriguez Amperez"] <- "Muniguate"
+Solo_entrenadores$SEDE[Solo_entrenadores$NOMBRE=="Walter William Estrada Morales"] <- "Capitalinos B-EMEFUT"
+levels(categoria_datos_junio$Categoría)
+Solo_entrenadores$CATEGORIA <- "Equipo Mayor"
+levels(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
+Solo_entrenadores$FUNCION <- "Entrenador de Alto Desempeño"
+Solo_entrenadores <- Solo_entrenadores[,c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")]
 
 
+  
+  
+  
 
-
-
-
-
+  
+  
+  
+  
 
 
