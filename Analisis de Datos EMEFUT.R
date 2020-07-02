@@ -284,6 +284,43 @@ write.csv(InformeFinal_junio,
           file = "Informe RRHH EMEFUT junio 2020")
 
 
+#--------------ACTUALIZACION DE ENCARGADOS Y PROFESORES FORMATO FINAL-----------------
+Datos_Encargados_Profesores_EMEFUT <- 
+  read.csv("~/R Projects/Reportes_EMEFUT/Datos/Datos_Encargados_Profesores_EMEFUT.csv")
+
+names(Datos_Encargados_Profesores_EMEFUT)
+show(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
+Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.<- as.factor(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
+levels(Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.)
+#Encargados, base de datos y limpieza
+Solo_encargados <- subset.data.frame(Datos_Encargados_Profesores_EMEFUT,
+                                     Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.=="Encargado EMEFUT")
+names(Solo_encargados)
+Solo_encargados <- Solo_encargados %>%
+  select("X.Cuál.es.su.nombre.",
+    "Usted.se.desempeña.como.","X.Qué.sede.EMEFUT.se.encuentra.a.su.cargo.",
+         "X.Con.qué.categoría.ha.estado.trabajando.durante.la.Cuarentena..enviando.videos..mensajes..entrenos..etc...",
+         "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted.") %>%
+  distinct()
+names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+#Separar las dos categorias
+Solo_encargados<- Solo_encargados %>%
+  separate(CATEGORIA,
+           c("CAT_1","CAT_2"),
+           ",") 
+Solo_encargados_A <- subset.data.frame(Solo_encargados,
+                                       !is.na(Solo_encargados$CAT_2))  
+Solo_encargados_A$CAT_1 <- NULL
+names(Solo_encargados_A) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+Solo_encargados$CAT_2 <- NULL
+names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+#Runidos en una sola base de datos de encargados y eliminamos las demas
+Solo_encargados <- rbind(Solo_encargados,
+      Solo_encargados_A)
+rm(Solo_encargados_A)
+
+
+
 
 
 
