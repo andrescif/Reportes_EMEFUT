@@ -319,6 +319,35 @@ Solo_encargados <- rbind(Solo_encargados,
       Solo_encargados_A)
 rm(Solo_encargados_A)
 
+#Profesores base de datos y limpieza
+Solo_profes <- subset.data.frame(Datos_Encargados_Profesores_EMEFUT,
+                                 Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.=="Profesor EMEFUT")
+names(Solo_profes)
+Solo_profes <- Solo_profes %>%
+  select("X.Cuál.es.su.nombre..1",
+         "Usted.se.desempeña.como.","X.A.qué.sede.EMEFUT.pertenece.",
+         "X.Con.qué.categoría.ha.estado.trabajando.durante.la.Cuarentena..enviando.videos..mensajes..entrenos..etc....1",
+         "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted..1") %>%
+  distinct()
+names(Solo_profes) <- names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+Solo_profes <- Solo_profes %>%
+  separate(CATEGORIA,
+           c("CAT_1","CAT_2"),
+           ",")
+Solo_profes_A <- subset.data.frame(Solo_profes,
+                  !is.na(Solo_profes$CAT_2))
+Solo_profes_A$CAT_1 <- NULL
+names(Solo_profes_A) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+Solo_profes$CAT_2 <- NULL
+names(Solo_profes) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+#Los profes en una base de datos
+Solo_profes <- rbind(Solo_profes,
+                     Solo_profes_A)
+rm(Solo_profes_A)
+
+
+
+
 
 
 
