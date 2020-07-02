@@ -408,9 +408,9 @@ FINAL_JUNIO_EMEFUT <- FINAL_JUNIO_EMEFUT %>%
   summarise(NOMBRE,FUNCION,LLAMADAS_JUNIO=sum(LLAMADAS_JUNIO,na.rm = TRUE),
             MENSAJES_JUNIO=sum(MENSAJES_JUNIO,na.rm = TRUE),
             ENTRENOS_JUNIO=sum(ENTRENOS_JUNIO,na.rm = TRUE))
-#Limpieza final de datos para publicación
 
-
+write.csv(FINAL_JUNIO_EMEFUT,
+          file = "Informe RRHH EMEFUT junio 2020")
 
 
 

@@ -1,43 +1,84 @@
-"","Nombre del Profesor","NIT","Llamadas_Junio","Mensajes_Junio","Entrenamientos_Junio"
-"1","Juan Antonio Rodriguez López",42003660,0,235,91
-"2","Catalino Ezequiel Aguilar Yos",549432,13,44,13
-"3","Pablo Rodrigo Alvarado Hernandez",1641487,33,111,38
-"4","STEPHANIE ROUSCELI RODRIGUEZ",91335299,33,111,38
-"5","Beda Miguel Angel Robles Gomez",1170597,129,39,12
-"6","Miguel Angel Flores Bran",7619839,160,93,13
-"7","Carlos Enrique Davila Monterroso",14036991,150,110,14
-"8","Eugenia Beatriz Juárez López",44091907,123,288,47
-"9","JULIO RENE CARRANZA",60200537,48,208,75
-"10","Cristian Gustavo Barrios Castellanos",91887216,49,136,82
-"11","Eugenio Enrique Herzig Arriaza",31598145,34,186,73
-"12","Jose Alfredo Calderon Alvarado",9871691,0,45,10
-"13","Juan Ricardo Perez Chamalé",6813585,15,70,45
-"14","Gabriel Octavio Rodriguez Caceres",6443591,0,121,20
-"15","Erickson Eliezer Velasquez Castillo",81465076,220,220,61
-"16","Hugo Leonel Garcia Caceres",5942586,179,179,81
-"17","Byron Augusto Marroquin Jimenez",72250267,0,74,66
-"18","Javier Eduardo Calderon Navas",81464738,0,190,84
-"19","Carlos Raul Hernandez Yanes",65738853,0,257,62
-"20","Brian Gustavo Avalos García",81885873,83,31,12
-"21","Jose Leonel Leal Lemus",64593118,55,56,36
-"22","Ruben Chicoj Cotzajay",13349348,58,46,60
-"23","Damariz Elizabeth Velasquez Perez",92776043,111,111,95
-"24","Luis Gabriel Vela Armira",16304519,185,185,90
-"25","Carlos Orlando Santos Roldan",25898205,187,187,90
-"26","Erick Gilberto Gramajo Morales",51773104,106,106,90
-"27","Roberto Rene Trujillo Cordova",30007461,0,223,53
-"28","Ottoniel Archila Hernández",68492332,11,223,51
-"29","VICTOR TOMAS PANJOJ ORDOÑEZ",68487215,245,246,80
-"30","Rony Eliel Cifuentes Ortiz",12131954,0,519,235
-"31","Yoana Lisbeth Pineda Margan",32081979,297,332,125
-"32","Jose Antonio Lopez Escobar",40798941,75,0,45
-"33","Hugo Daniel Gutierrez Alvarado",9755268,29,233,45
-"34","Juan Jose Del Cid Solólorzano",34361502,0,254,40
-"35","Jefferson Berner Alexis Bertrand Cartagena",81013760,11,83,16
-"36","Byron Alexander Barrios Perez",90558677,5,290,92
-"37","Jose Antonio Monterroso Hidalgo",8525889,118,147,238
-"38","Eduardo Roberto Garcia Calvillo",40520188,30,207,53
-"39","Ani Celeste Pablo Elias",92970699,58,129,44
-"40","Jose Luis Panjoj Ordoñes",79981755,0,114,82
-"41","Edy Roberto Matias Martinez",26764652,0,106,25
-"42","Juan Carlos Chom Cucul",87027720,0,68,39
+"","SEDE","CATEGORIA","NOMBRE","FUNCION","LLAMADAS_JUNIO","MENSAJES_JUNIO","ENTRENOS_JUNIO"
+"1","Bethania","Infantil","Juan Antonio Rodriguez López","Profesor EMEFUT",0,235,91
+"2","Bethania","Intermedia","Catalino Ezequiel Aguilar Yos","Encargado EMEFUT",13,44,13
+"3","Bethania","Juvenil","Catalino Ezequiel Aguilar Yos",NA,0,81,15
+"4","Bethania","Moscos","STEPHANIE ROUSCELI RODRIGUEZ","Profesor EMEFUT",33,111,38
+"5","Bethania"," Juvenil","Catalino Ezequiel Aguilar Yos","Encargado EMEFUT",0,0,0
+"6","Campo Marte","Infantil","Beda Miguel Angel Robles Gomez","Encargado EMEFUT",129,39,12
+"7","Campo Marte","Intermedia","Miguel Angel Flores Bran","Profesor EMEFUT",160,93,13
+"8","Campo Marte","Juvenil","Carlos Enrique Davila Monterroso","Profesor EMEFUT",150,110,14
+"9","Campo Marte","Moscos","Eugenia Beatriz Juárez López","Profesor EMEFUT",123,288,47
+"10","Cantón 21","Infantil","JULIO RENE CARRANZA","Encargado EMEFUT",48,208,75
+"11","Cantón 21","Intermedia","Cristian Gustavo Barrios Castellanos","Profesor EMEFUT",49,136,82
+"12","Cantón 21","Juvenil",NA,NA,57,145,83
+"13","Cantón 21","Moscos","Eugenio Enrique Herzig Arriaza","Profesor EMEFUT",34,186,73
+"14","Cantón 21"," Juvenil","JULIO RENE CARRANZA","Encargado EMEFUT",0,0,0
+"15","Cantón 21"," Juvenil","Cristian Gustavo Barrios Castellanos","Profesor EMEFUT",0,0,0
+"16","Capitalinos B-EMEFUT","Equipo Mayor","Walter William Estrada Morales","Entrenador de Alto Desempeño",0,300,67
+"17","Castillo Lara","Infantil","Jose Alfredo Calderon Alvarado","Profesor EMEFUT",0,45,10
+"18","Castillo Lara","Intermedia","Juan Ricardo Perez Chamalé","Encargado EMEFUT",15,70,45
+"19","Castillo Lara","Juvenil",NA,NA,5,64,45
+"20","Castillo Lara","Moscos","Gabriel Octavio Rodriguez Caceres","Profesor EMEFUT",0,121,20
+"21","Castillo Lara"," Juvenil","Juan Ricardo Perez Chamalé","Encargado EMEFUT",0,0,0
+"22","Chácara","Infantil","Erickson Eliezer Velasquez Castillo","Profesor EMEFUT",220,220,61
+"23","Chácara","Intermedia","Hugo Leonel Garcia Caceres","Encargado EMEFUT",179,179,81
+"24","Chácara","Juvenil","Byron Augusto Marroquin Jimenez","Profesor EMEFUT",0,74,66
+"25","Chácara","Moscos","Javier Eduardo Calderon Navas","Profesor EMEFUT",0,190,84
+"26","Florida","Infantil","Carlos Raul Hernandez Yanes","Encargado EMEFUT",0,257,62
+"27","Florida","Intermedia","Brian Gustavo Avalos García","Profesor EMEFUT",83,31,12
+"28","Florida","Juvenil","Jose Leonel Leal Lemus","Profesor EMEFUT",55,56,36
+"29","Florida","Moscos","Ruben Chicoj Cotzajay","Profesor EMEFUT",58,46,60
+"30","Gerona","Infantil","Damariz Elizabeth Velasquez Perez","Profesor EMEFUT",222,222,190
+"31","Gerona","Infantil","Carlos Orlando Santos Roldan","Encargado EMEFUT",222,222,190
+"32","Gerona","Intermedia","Luis Gabriel Vela Armira","Profesor EMEFUT",185,185,90
+"33","Gerona","Juvenil",NA,NA,187,187,90
+"34","Gerona","Moscos","Erick Gilberto Gramajo Morales","Profesor EMEFUT",106,106,90
+"35","Gerona"," Juvenil","Carlos Orlando Santos Roldan","Encargado EMEFUT",0,0,0
+"36","Justo Rufino Barrios","Infantil","Roberto Rene Trujillo Cordova","Encargado EMEFUT",0,223,53
+"37","Justo Rufino Barrios","Intermedia","Ottoniel Archila Hernández","Profesor EMEFUT",11,223,51
+"38","Justo Rufino Barrios","Juvenil",NA,NA,0,232,54
+"39","Justo Rufino Barrios","Moscos","VICTOR TOMAS PANJOJ ORDOÑEZ","Profesor EMEFUT",245,246,80
+"40","Justo Rufino Barrios"," Juvenil","Roberto Rene Trujillo Cordova","Encargado EMEFUT",0,0,0
+"41","Lourdes","Infantil","Pedro Candido Ramirez Gomez","Encargado EMEFUT",104,183,71
+"42","Lourdes","Intermedia",NA,NA,67,137,69
+"43","Lourdes","Juvenil","Rony Eliel Cifuentes Ortiz","Profesor EMEFUT",0,519,235
+"44","Lourdes","Moscos","Yoana Lisbeth Pineda Morgan","Profesor EMEFUT",297,332,125
+"45","Lourdes"," Intermedia","Pedro Candido Ramirez Gomez","Encargado EMEFUT",0,0,0
+"46","Milles Rock","Infantil",NA,NA,5,123,15
+"47","Milles Rock","Intermedia",NA,NA,284,284,37
+"48","Milles Rock","Juvenil",NA,NA,188,12,4
+"49","Milles Rock","Moscos",NA,NA,16,271,62
+"50","Muniguate","Equipo Mayor","Servio Haens Rodriguez Amperez","Entrenador de Alto Desempeño",193,186,124
+"51","Nimajuyú","Infantil",NA,NA,78,389,40
+"52","Nimajuyú","Intermedia","Jose Antonio Lopez Escobar","Profesor EMEFUT",75,0,45
+"53","Nimajuyú","Juvenil","Hugo Daniel Gutierrez Alvarado","Profesor EMEFUT",29,233,45
+"54","Nimajuyú","Moscos","Juan Jose Del Cid Solólorzano","Profesor EMEFUT",0,508,80
+"55","Nimajuyú","Moscos","José Lemus","Encargado EMEFUT",0,508,80
+"56","Nimajuyú"," Infantil","José Lemus","Encargado EMEFUT",0,0,0
+"57","Proyecto 4-10","Infantil",NA,NA,39,268,77
+"58","Proyecto 4-10","Intermedia",NA,NA,0,158,69
+"59","Proyecto 4-10","Juvenil",NA,NA,16,306,79
+"60","Proyecto 4-10","Moscos",NA,NA,21,253,80
+"61","Roosevelt","Infantil","Jefferson Berner Alexis Bertrand Cartagena","Profesor EMEFUT",11,83,16
+"62","Roosevelt","Intermedia","Byron Alexander Barrios Perez","Profesor EMEFUT",5,290,92
+"63","Roosevelt","Juvenil",NA,NA,102,150,57
+"64","Roosevelt","Moscos","Jorge Luis Velasquez","Encargado EMEFUT",95,135,58
+"65","Roosevelt"," Juvenil","Jorge Luis Velasquez","Encargado EMEFUT",0,0,0
+"66","San Francisco de Asís","Infantil","Jose Antonio Monterroso Hidalgo","Encargado EMEFUT",118,147,238
+"67","San Francisco de Asís","Intermedia","Eduardo Roberto Garcia Calvillo","Profesor EMEFUT",30,207,53
+"68","San Francisco de Asís","Juvenil",NA,NA,102,127,224
+"69","San Francisco de Asís","Moscos","Ani Celeste Pablo Elias","Profesor EMEFUT",58,129,44
+"70","San Francisco de Asís"," Juvenil","Jose Antonio Monterroso Hidalgo","Encargado EMEFUT",0,0,0
+"71","Santa Fe","Infantil","Jose Luis Panjoj Ordoñes","Profesor EMEFUT",0,114,82
+"72","Santa Fe","Intermedia","Edy Roberto Matias Martinez","Encargado EMEFUT",0,106,25
+"73","Santa Fe","Juvenil",NA,NA,0,176,83
+"74","Santa Fe","Moscos","Juan Carlos Chom Cucul","Profesor EMEFUT",0,68,39
+"75","Santa Fe"," Juvenil","Juan Carlos Chom Cucul","Profesor EMEFUT",0,0,0
+"76","MIlles Rock","Infantil","Miguel Anibal Sandoval Chavez","Encargado EMEFUT",0,0,0
+"77","MIlles Rock","Intermedia","Brenda Guadalupe Perez Lopez","Profesor EMEFUT",0,0,0
+"78","MIlles Rock","Juvenil","Guillermo Anibal Monterroso Cifuentes","Profesor EMEFUT",0,0,0
+"79","MIlles Rock","Moscos","Sergio Jose Dario Hernández Barrera","Profesor EMEFUT",0,0,0
+"80","Proyecto","Infantil","Oscar Cabrera Ordoñez","Encargado EMEFUT",0,0,0
+"81","Proyecto","Intermedia","KEVIN JOSUE OBDULIO GUERRA","Profesor EMEFUT",0,0,0
+"82","Proyecto","Juvenil","Luis Fernando Santos Santos","Profesor EMEFUT",0,0,0
+"83","Proyecto","Moscos","SHEYLA CAROLINA MARISOL BARILLAS NORIEGA","Profesor EMEFUT",0,0,0
