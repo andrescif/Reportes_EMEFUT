@@ -50,7 +50,7 @@ rm(Avances.hasta.domingo.28.de.junio)
 
 
 #----------------LA BASE DE DATOS COMPLETA DE PERSONAL EMEFUT--------------------------
-#Datos de porfesores y encargados completa
+#Datos de porfesores
 Datos_Encargados_Profesores_EMEFUT <- 
   read.csv("~/R Projects/Reportes_EMEFUT/Datos/Datos de personal EMEFUT.csv")
 
@@ -85,6 +85,56 @@ Solo_profes <- rbind(Solo_profes,
                      Solo_profes_A)
 rm(Solo_profes_A)
 
+#Datos encargados base de datos y limpieza
+Solo_encargados <- subset.data.frame(Datos_Encargados_Profesores_EMEFUT,
+                                     Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.=="Encargado EMEFUT")
 
+Solo_encargados <- Solo_encargados %>%
+  select("X.Cuál.es.su.nombre.",
+         "Usted.se.desempeña.como.","X.Qué.sede.EMEFUT.se.encuentra.a.su.cargo.",
+         "X.Con.qué.categoría.ha.estado.trabajando.durante.la.Cuarentena..enviando.videos..mensajes..entrenos..etc...",
+         "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted.") %>%
+  distinct()
+names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+#Separar las dos categorias
+Solo_encargados<- Solo_encargados %>%
+  separate(CATEGORIA,
+           c("CAT_1","CAT_2"),
+           ",") 
+Solo_encargados_A <- subset.data.frame(Solo_encargados,
+                                       !is.na(Solo_encargados$CAT_2))  
+Solo_encargados_A$CAT_1 <- NULL
+names(Solo_encargados_A) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+Solo_encargados$CAT_2 <- NULL
+names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+#Reunidos en una sola base de datos de encargados y eliminamos las demas
+Solo_encargados <- rbind(Solo_encargados,
+                         Solo_encargados_A)
+rm(Solo_encargados_A)
 
+#Datos entrenadores, base de datos y limpieza
+Solo_entrenadores <- subset.data.frame(Datos_Encargados_Profesores_EMEFUT,
+                                       Datos_Encargados_Profesores_EMEFUT$Usted.se.desempeña.como.=="Entrenador de Alto Desempeño EMEFUT (sólo entrenadores titulares)")
+Solo_entrenadores <- Solo_entrenadores %>%
+  select(c("X.Cuál.es.su.nombre..2",
+           "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted..2"))
+names(Solo_entrenadores) <- c("NOMBRE","TELEFONO_CONTACTO")
+
+Solo_entrenadores$SEDE <- NA
+Solo_entrenadores$SEDE[Solo_entrenadores$NOMBRE=="Servio Haens Rodriguez Amperez"] <- "Muniguate"
+Solo_entrenadores$SEDE[Solo_entrenadores$NOMBRE=="Walter William Estrada Morales"] <- "Capitalinos B-EMEFUT"
+Solo_entrenadores$CATEGORIA <- "Equipo Mayor"
+Solo_entrenadores$FUNCION <- "Entrenador de Alto Desempeño"
+Solo_entrenadores <- Solo_entrenadores[,c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")]
+
+#Unir las tres bases de datos en una sola
+profe_datos <-  rbind(Solo_encargados,
+                      Solo_profes) 
+profe_datos<- rbind(profe_datos,
+                    Solo_entrenadores)  
+
+#Limpiar mi area de trabajo
+rm(Solo_encargados)  
+rm(Solo_entrenadores)  
+rm(Solo_profes)
 
