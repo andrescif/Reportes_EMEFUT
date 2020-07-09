@@ -329,7 +329,7 @@ Solo_profes <- Solo_profes %>%
          "X.Con.qué.categoría.ha.estado.trabajando.durante.la.Cuarentena..enviando.videos..mensajes..entrenos..etc....1",
          "Por.favor.brindar.un.número.de.teléfono.que.tenga.Whassap.para.comunicarnos.con.usted..1") %>%
   distinct()
-names(Solo_profes) <- names(Solo_encargados) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
+names(Solo_profes) <- c("NOMBRE","FUNCION","SEDE","CATEGORIA","TELEFONO_CONTACTO")
 Solo_profes <- Solo_profes %>%
   separate(CATEGORIA,
            c("CAT_1","CAT_2"),
