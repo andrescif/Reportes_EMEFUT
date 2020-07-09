@@ -138,3 +138,44 @@ rm(Solo_encargados)
 rm(Solo_entrenadores)  
 rm(Solo_profes)
 
+save(profe_datos,
+     file = "Sedes_Categorías_Profesores")
+
+#------------------------UNA SOLA FUENTE PARA INFORME FINAL---------------------------
+profe_datos_union<- profe_datos %>%
+  select("NOMBRE","FUNCION","SEDE","CATEGORIA") 
+names(categoria_datos_junio) <- c("SEDE","CATEGORIA","LLAMADAS_JUNIO","MENSAJES_JUNIO",
+                                  "ENTRENOS_JUNIO")
+categoria_datos_junio_union <- subset.data.frame(categoria_datos_junio,
+                                                 (categoria_datos_junio$SEDE!="Alameda"&
+                                                    categoria_datos_junio$SEDE!="Limón"&
+                                                    categoria_datos_junio$SEDE!="Maestro"&
+                                                    categoria_datos_junio$SEDE!="Paraiso 2"))
+FINAL_JUNIO_EMEFUT <- merge(categoria_datos_junio_union,
+                            profe_datos_union,
+                            key=("SEDE"&"CATEGORIA"),
+                            all = TRUE)
+FINAL_JUNIO_EMEFUT <- FINAL_JUNIO_EMEFUT %>%
+  group_by(SEDE,CATEGORIA) %>%
+  summarise(NOMBRE,FUNCION,LLAMADAS_JUNIO=sum(LLAMADAS_JUNIO,na.rm = TRUE),
+            MENSAJES_JUNIO=sum(MENSAJES_JUNIO,na.rm = TRUE),
+            ENTRENOS_JUNIO=sum(ENTRENOS_JUNIO,na.rm = TRUE))
+
+write.csv(FINAL_JUNIO_EMEFUT,
+          file = "Informe RRHH EMEFUT junio 2020")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
