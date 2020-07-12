@@ -58,14 +58,43 @@ datos[3080, "Fecha de contacto"] <- "2020-06-15"
 
 
 #-------------------------CATEGORIZAR LAS VARIABLES ÚTILES-----------------------------
-datos$`Fecha de contacto` <- as.Date(datos$`Fecha de contacto`)
+datos$`Fecha de contacto` <- as.Date(datos$`Fecha de contacto`,format="%Y-%m-%d")
 datos$Sede <- as.factor(datos$Sede)
 datos$Categoría <- as.factor(datos$Categoría)
 datos$`¿Llamadas?` <- as.factor(datos$`¿Llamadas?`)
 datos$`¿Mensajes?` <- as.factor(datos$`¿Mensajes?`)
 datos$`¿Entrenamientos?` <- as.factor(datos$`¿Entrenamientos?`)
+#Volver porcentajes
 datos$`%Recibió` <- datos$`%Recibió`*.2
 datos$`%Realizó` <- datos$`%Realizó`*.2
+
+#Condicones
+datos$`Fecha de contacto`[datos$`Fecha de contacto`>"2020-03-01" &
+                            datos$`Fecha de contacto`<"2020-04-01"]
+table(datos$`Fecha de contacto`[datos$`Fecha de contacto`>"2020-03-01" &
+                                  datos$`Fecha de contacto`<"2020-04-01"])
+datos$`Fecha de contacto`[datos$`Fecha de contacto`>"2020-03-30" &
+                            datos$`Fecha de contacto`<"2020-05-01"]
+table(datos$`Fecha de contacto`[datos$`Fecha de contacto`>"2020-03-30" &
+                                  datos$`Fecha de contacto`<"2020-05-01"])
+#Nueva variable de mes en el que relizó el contacto
+datos$Mes_reporte <- NA
+datos$Mes_reporte[datos$`Fecha de contacto`>"2020-03-01" &
+                    datos$`Fecha de contacto`<"2020-04-01"] <- "MARZO"
+datos$Mes_reporte[datos$`Fecha de contacto`>"2020-03-30" &
+                    datos$`Fecha de contacto`<"2020-05-01"] <- "ABRIL"
+datos$Mes_reporte[datos$`Fecha de contacto`>"2020-04-30" &
+                    datos$`Fecha de contacto`<"2020-06-01"] <- "MAYO"
+datos$Mes_reporte[datos$`Fecha de contacto`>"2020-05-31" &
+                    datos$`Fecha de contacto`<"2020-07-01"] <- "JUNIO"
+datos$Mes_reporte[datos$`Fecha de contacto`>"2020-06-30" &
+                    datos$`Fecha de contacto`<"2020-08-01"] <- "JULIO"
+table(datos$Mes_reporte)
+datos$Mes_reporte <- as.factor(datos$Mes_reporte)
+datos$Mes_reporte <- ordered(datos$Mes_reporte,
+                             levels=c("MARZO","ABRIL","MAYO","JUNIO","JULIO"))
+
+
 
 
 
