@@ -94,9 +94,16 @@ datos$Mes_reporte <- as.factor(datos$Mes_reporte)
 datos$Mes_reporte <- ordered(datos$Mes_reporte,
                              levels=c("MARZO","ABRIL","MAYO","JUNIO","JULIO"))
 
+#Filtrar los datos sólo de la escuela
+show(datos$Categoría)
+EMEFUT_datos <- datos %>%
+  filter(datos$Categoría!="Sub-15" &
+           datos$Categoría!="Sub-18" &
+           datos$Categoría!="Equipo Mayor")
 
-
-
+#Ordenar las categorías
+EMEFUT_datos$Categoría <- ordered(EMEFUT_datos$Categoría,
+                                  levels=c("Moscos","Infantil","Intermedia","Juvenil"))
 
 
 
