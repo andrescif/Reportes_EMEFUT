@@ -107,5 +107,15 @@ EMEFUT_datos$Categoría <- ordered(EMEFUT_datos$Categoría,
 
 
 
+#--------------------------ANALISIS, TABLAS Y GRAFICOS--------------------------------
+
+
+
+
+
+
+
+
+
 
 
