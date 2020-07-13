@@ -108,11 +108,77 @@ EMEFUT_datos$Categoría <- ordered(EMEFUT_datos$Categoría,
 
 
 #--------------------------ANALISIS, TABLAS Y GRAFICOS--------------------------------
+A <- EMEFUT_datos %>%
+  group_by(EMEFUT_datos$Sede,
+           EMEFUT_datos$Mes_reporte) %>%
+  summarise(Total_reportes=n(),
+            Llamadas_Totales=sum(`Llamadas efectivas`,na.rm = TRUE),
+            Mensajes_Totales=sum(`Mensajes efectivos`,na.rm = TRUE),
+            Entrenos_Totales=sum(`¿Cuántos entrenamientos?`,na.rm = TRUE))
+write.csv(A,
+          file = "Tabla de sedes, meses y totales")
+rm(A)
 
+#Gráficos
+#Reportes de Contactos por Sede y Categoría
+ggplot(EMEFUT_datos,
+       aes(Sede,fill=Categoría))+
+  theme_bw()+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1, size = 8))+
+  labs(x="",
+       y="Cantidad de Reportes",
+       title = "Reportes de Contactos por Sede y Categoría")
 
+#Llamadas Efectivas por Sede y Categoría
+ggplot(EMEFUT_datos,
+       aes(Sede,
+           `Llamadas efectivas`,
+           fill=Categoría))+
+  theme_bw()+
+  geom_col()+
+  guides(fill=guide_legend(title = "Categoría"))+
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1, size = 8))+
+  labs(x="",
+    title = "Llamadas Efectivas por Sede y Categoría")
 
+#Mensajes Efectivos por Sede y Categoría
+ggplot(EMEFUT_datos,
+       aes(Sede,
+           `Mensajes efectivos`,
+           fill=Categoría))+
+  theme_bw()+
+  geom_col()+
+  guides(fill=guide_legend(title = "Categoría"))+
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1, size = 8))+
+  labs(x="",
+       title = "Mensajes Efectivos por Sede y Categoría")
 
+#Mensajes con Entrenamientos Enviados por Sede y Categoría
+ggplot(EMEFUT_datos,
+       aes(Sede,
+           `¿Cuántos entrenamientos?`,
+           fill=Categoría))+
+  theme_bw()+
+  geom_col()+
+  guides(fill=guide_legend(title = "Categoría"))+
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1, size = 8))+
+  labs(x="",
+       y="Mensajes con entrenamientos enviados",
+       title = "Mensajes con Entrenamientos Enviados por Sede y Categoría")
 
+#Entrenamientos Enviados por Sede y Categoría
+EMEFUT_datos %>%
+  group_by(Sede,
+           Categoría) %>%
+  tally(`¿Entrenamientos?`=="Sí") %>%
+  ggplot(aes(Sede,`n`,fill=Categoría))+
+  theme_bw()+
+  geom_col()+
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1, size = 8))+
+  labs(x="",
+       y="Entrenamientos enviados",
+       title = "Entrenamientos Enviados por Sede y Categoría")
 
 
 
