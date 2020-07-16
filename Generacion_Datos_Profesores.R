@@ -34,10 +34,39 @@ rm(Datos.de.personal.EMEFUT)
 rm(A)
 rm(B)
 
+#Separar las categorías
 
+A <- profe_nombres %>%
+  separate("Categoría",
+           c("CAT_1","CAT_2"),
+           ",")
+B<- subset.data.frame(A,
+                  !is.na(A$CAT_2))
 
+A <- A %>%
+  select("Nombre","Sede","CAT_1")
+names(A) <- c("Nombre","Sede","Categoría")
 
+B <- B %>%
+  select("Nombre","Sede","CAT_2")
+names(B) <- c("Nombre","Sede","Categoría")
 
+profe_nombres<- rbind(A,B)
+rm(A)
+rm(B)
+
+show(profe_nombres$Sede)
+show(profe_nombres$Categoría)
+profe_nombres$Categoría <- as.factor(profe_nombres$Categoría)
+levels(profe_nombres$Categoría)
+profe_nombres$Categoría[profe_nombres$Categoría==" Infantil"] <- "Infantil"
+profe_nombres$Categoría[profe_nombres$Categoría==" Intermedia"] <- "Intermedia"
+profe_nombres$Categoría[profe_nombres$Categoría==" Juvenil"] <- "Juvenil"
+profe_nombres$Categoría <- ordered(profe_nombres$Categoría,
+                                   levels=c("Moscos","Infantil","Intermedia","Juvenil"))
+
+save(profe_nombres,
+     file = "Cuadro de Sólo Nombres con Sede y Categoría")
 
 
 
