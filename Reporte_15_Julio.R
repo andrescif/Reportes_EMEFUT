@@ -97,10 +97,82 @@ profe_nombres <- subset.data.frame(profe_datos,
                   select = c("NOMBRE","SEDE","CATEGORIA"))
 names(profe_nombres) <- c("Nombre","Sede","Categoría")
 
+#Número único para unir las base de datos
+levels(profe_nombres$Sede)
+#Sedes de los nombres de profesores
+profe_nombres$A[profe_nombres$Sede=="Bethania"] <- 1
+profe_nombres$A[profe_nombres$Sede=="Campo Marte"] <- 2
+profe_nombres$A[profe_nombres$Sede=="Cantón 21"] <- 3
+profe_nombres$A[profe_nombres$Sede=="Castillo Lara"] <- 4
+profe_nombres$A[profe_nombres$Sede=="Chácara"] <- 5
+profe_nombres$A[profe_nombres$Sede=="Florida"] <- 6
+profe_nombres$A[profe_nombres$Sede=="Gerona"] <- 7
+profe_nombres$A[profe_nombres$Sede=="Justo Rufino Barrios"] <- 8
+profe_nombres$A[profe_nombres$Sede=="Lourdes"] <- 9
+profe_nombres$A[profe_nombres$Sede=="Milles Rock"] <- 10
+profe_nombres$A[profe_nombres$Sede=="Nimajuyú"] <- 11
+profe_nombres$A[profe_nombres$Sede=="Proyecto 4-10"] <- 12
+profe_nombres$A[profe_nombres$Sede=="Roosevelt"] <- 13
+profe_nombres$A[profe_nombres$Sede=="San Francisco de Asís"] <- 14
+profe_nombres$A[profe_nombres$Sede=="Santa Fe"] <- 15
+profe_nombres$A <- profe_nombres$A*10
+#Categorías de los nombres de profesores
+levels(profe_nombres$Categoría)
+profe_nombres$B[profe_nombres$Categoría=="Moscos"] <- 1
+profe_nombres$B[profe_nombres$Categoría=="Infantil"] <- 2
+profe_nombres$B[profe_nombres$Categoría=="Intermedia"] <- 3
+profe_nombres$B[profe_nombres$Categoría=="Juvenil"] <- 4
+#Numero único
+profe_nombres$NUM_UNICO <- profe_nombres$A+profe_nombres$B
 
-left_join(profe_nombres,
+#Sedes del resumen de reportes
+levels(Informe_Quincena_Julio$Sede)
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Bethania"] <- 1
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Campo Marte"] <- 2
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Cantón 21"] <- 3
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Castillo Lara"] <- 4
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Chácara"] <- 5
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Florida"] <- 6
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Gerona"] <- 7
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Justo Rufino Barrios"] <- 8
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Lourdes"] <- 9
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Milles Rock"] <- 10
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Nimajuyú"] <- 11
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Proyecto 4-10"] <- 12
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Roosevelt"] <- 13
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="San Francisco de Asís"] <- 14
+Informe_Quincena_Julio$A[Informe_Quincena_Julio$Sede=="Santa Fe"] <- 15
+Informe_Quincena_Julio$A <- Informe_Quincena_Julio$A*10
+#Categorías de los nombres de profesores
+levels(Informe_Quincena_Julio$Categoría)
+Informe_Quincena_Julio$B[Informe_Quincena_Julio$Categoría=="Moscos"] <- 1
+Informe_Quincena_Julio$B[Informe_Quincena_Julio$Categoría=="Infantil"] <- 2
+Informe_Quincena_Julio$B[Informe_Quincena_Julio$Categoría=="Intermedia"] <- 3
+Informe_Quincena_Julio$B[Informe_Quincena_Julio$Categoría=="Juvenil"] <- 4
+#Numero único
+Informe_Quincena_Julio$NUM_UNICO <- Informe_Quincena_Julio$A+Informe_Quincena_Julio$B
+
+#Unir las dos en una sola tabla para informe
+profe_nombres <- profe_nombres %>%
+  select("Nombre",
+         "NUM_UNICO")
+Informe_Quincena_Julio<- Informe_Quincena_Julio[,c(8,1,2,3,4,5,6,7)]
+
+Tabla_Final_Informe <- left_join(profe_nombres,
           Informe_Quincena_Julio,
-          by="Sede","Categoría")
+          by="NUM_UNICO")
+
+Tabla_Final_Informe <- Tabla_Final_Informe %>%
+  select("Nombre","Total_Llamadas","Total_Mensajes","Total_Entrenos")
+
+write.csv(Tabla_Final_Informe,
+          file = "Tabla Informe Quincena Julio 2020")
+
+
+
+
+
+
 
 
 
