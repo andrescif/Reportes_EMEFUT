@@ -92,7 +92,7 @@ Informe_Quincena_Julio <- subset.data.frame(Informe_Quincena_Julio,
 
 
 #Cargar datos de profesores
-
+levels(Informe_Quincena_Julio$Sede)
 profe_nombres <- subset.data.frame(profe_datos,
                   select = c("NOMBRE","SEDE","CATEGORIA"))
 names(profe_nombres) <- c("Nombre","Sede","Categoría")
