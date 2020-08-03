@@ -83,7 +83,9 @@ Informe_Quincena_Julio <- datos_julio %>%
 #Limpiar la tabla
 Informe_Quincena_Julio <- subset.data.frame(Informe_Quincena_Julio,
                                             !is.na(Informe_Quincena_Julio$Categoría))
-
+#Tabla de informe
+write.csv(Informe_Quincena_Julio,
+          file = "Tabla Segunda Quincena Julio")
 
 
 
