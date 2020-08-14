@@ -84,7 +84,7 @@ Informe_Quincena_Agosto <- subset.data.frame(Informe_Quincena_Agosto,
 #Tabla de informe
 write.csv(Informe_Quincena_Agosto,
           file = "Tabla Primera Quincena Agosto")
-
+rm(list = ls())
 
 
 
