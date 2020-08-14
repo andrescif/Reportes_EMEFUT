@@ -60,10 +60,30 @@ datos[4093, "Fecha de contacto"] <- "2020-07-09"
 datos[4092, "Fecha de contacto"] <- "2020-07-08"
 datos[4091, "Fecha de contacto"] <- "2020-07-07"
 datos[4090, "Fecha de contacto"] <- "2020-07-06"
-
-
-
-
+#Nombrar variables
+datos$`Fecha de contacto` <- as.Date(datos$`Fecha de contacto`,format="%Y-%m-%d")
+datos$Sede <- as.factor(datos$Sede)
+datos$Categoría <- as.factor(datos$Categoría)
+#Ordenar las categorías
+datos$Categoría <- ordered(datos$Categoría,
+                                 levels=c("Moscos","Infantil","Intermedia","Juvenil"))
+#Filtrar las fechas
+datos_agosto<- datos %>%
+  filter(datos$`Fecha de contacto`>"2020-07-30" &
+           datos$`Fecha de contacto`<"2020-08-13")
+#Resumen del reporte
+Informe_Quincena_Agosto <- datos_agosto %>%
+  group_by(Sede,
+           Categoría) %>%
+  summarise(Total_Llamadas=sum(`Llamadas efectivas`,na.rm = TRUE),
+            Total_Mensajes=sum(`Mensajes efectivos`,na.rm = TRUE),
+            Total_Entrenos=sum(`¿Cuántos entrenamientos?`,na.rm = TRUE))
+#Limpiar la tabla
+Informe_Quincena_Agosto <- subset.data.frame(Informe_Quincena_Agosto,
+                                            !is.na(Informe_Quincena_Agosto$Categoría))
+#Tabla de informe
+write.csv(Informe_Quincena_Agosto,
+          file = "Tabla Primera Quincena Agosto")
 
 
 
