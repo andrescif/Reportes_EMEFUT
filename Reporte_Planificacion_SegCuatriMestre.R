@@ -88,16 +88,23 @@ datos$Categoría <- ordered(datos$Categoría,
 datos_cuatrimestredos<- datos %>%
   filter(datos$`Fecha de contacto`>"2020-04-30" &
            datos$`Fecha de contacto`<"2020-08-01")
+#Agregar meses
+datos_cuatrimestredos$Mes_Contacto <- months(datos_cuatrimestredos$`Fecha de contacto`)
+table(datos_cuatrimestredos$Mes_Contacto)
+#Meses en castellano
+datos_cuatrimestredos$Mes_Contacto[datos_cuatrimestredos$Mes_Contacto=="May"] <- "MAYO"
+datos_cuatrimestredos$Mes_Contacto[datos_cuatrimestredos$Mes_Contacto=="June"] <- "JUNE"
+datos_cuatrimestredos$Mes_Contacto[datos_cuatrimestredos$Mes_Contacto=="July"] <- "JULIO"
+datos_cuatrimestredos$Mes_Contacto <- as.factor(datos_cuatrimestredos$Mes_Contacto)
+datos_cuatrimestredos$Mes_Contacto <- ordered(datos_cuatrimestredos$Mes_Contacto,
+                                                      c("MAYO","JUNIO","JULIO"))
 
 Informe_segundocuatrimestre <- datos_cuatrimestredos %>%
-  group_by(Sede,
-           Categoría) %>%
+  group_by(Mes_Contacto) %>%
   summarise(Total_Llamadas=sum(`Llamadas efectivas`,na.rm = TRUE),
             Total_Mensajes=sum(`Mensajes efectivos`,na.rm = TRUE),
             Total_Entrenos=sum(`¿Cuántos entrenamientos?`,na.rm = TRUE))
-#Limpiar la tabla
-Informe_segundocuatrimestre <- subset.data.frame(Informe_segundocuatrimestre,
-                                             !is.na(Informe_segundocuatrimestre$Categoría))
+#Tabla
 write.csv(Informe_segundocuatrimestre,
           file = "Tabla de informe de segundo cuatrimestre de EMEFUT")
 rm(list = ls())
