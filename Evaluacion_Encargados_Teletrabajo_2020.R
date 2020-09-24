@@ -8,10 +8,10 @@ names(Evaluacion_profes) <- c("Timestamp","Sede","Total_profesores","Nombre","Co
 
 #Revisar la data
 str(Evaluacion_profes)
-table(Evaluacion_profes$Comunicacion_encargado)
-table(Evaluacion_profes$Sigue_instrucciones)
-table(Evaluacion_profes$Comunicacion_alumnos)
-table(Evaluacion_profes$Calidad_trabajo)
+table(Evaluacion_profes$Comunicacion_encargado,useNA = "ifany")
+table(Evaluacion_profes$Sigue_instrucciones,useNA = "ifany")
+table(Evaluacion_profes$Comunicacion_alumnos,useNA = "ifany")
+table(Evaluacion_profes$Calidad_trabajo,useNA = "ifany")
 
 write.csv(Evaluacion_profes,
           file = "Evaluacion de profesores por encargados")
