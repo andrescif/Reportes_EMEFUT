@@ -147,6 +147,3 @@ Informe_Primera_Quincena_Octubre <- subset.data.frame(Informe_Primera_Quincena_O
 write.csv(Informe_Primera_Quincena_Octubre,
           file = "Tabla Primera Quincena Octubre")
 rm(list = ls())
-
-
-
