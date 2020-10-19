@@ -53,7 +53,7 @@ tabla_solo_datos <- solo_datos %>%
 
 write.csv(tabla_solo_datos,
           file = "Tabla resumen datos atendidos plan piloto")
-
+rm(list = ls())
 
 
 
