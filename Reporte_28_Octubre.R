@@ -150,3 +150,17 @@ datos$Categoría <- ordered(datos$Categoría,
 datos_octubre<- datos %>%
   filter(datos$`Fecha de contacto`>"2020-10-14" &
            datos$`Fecha de contacto`<"2020-10-29")
+#Resumen del reporte
+Informe_Segunda_Quincena_Octubre <- datos_octubre %>%
+  group_by(Sede,
+           Categoría) %>%
+  summarise(Total_Llamadas=sum(`Llamadas efectivas`,na.rm = TRUE),
+            Total_Mensajes=sum(`Mensajes efectivos`,na.rm = TRUE),
+            Total_Entrenos=sum(`¿Cuántos entrenamientos?`,na.rm = TRUE))
+#Limpiar la tabla
+Informe_Segunda_Quincena_Octubre <- subset.data.frame(Informe_Segunda_Quincena_Octubre,
+                                                      !is.na(Informe_Segunda_Quincena_Octubre$Categoría))
+#Tabla de informe
+write.csv(Informe_Segunda_Quincena_Octubre,
+          file = "Tabla Segunda Quincena Octubre")
+rm(list = ls())
