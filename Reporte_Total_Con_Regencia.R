@@ -13,7 +13,10 @@ names(datos)<-  c("Fecha_de_reporte","Fecha_de_contacto",
                    "¿Cuántos_entrenamientos?", "%Recibió",
                    "%Realizó","¿Entreno_nueva_normalidad?","¿Categoria_nueva_normalidad?",
                    "¿Turnos_nueva_normalidad?","Atendidos_nueva_normalidad","Comentario")
-#-------------------------------CORRECCION DE DATOS CON ERRORES---------------------------
+
+
+#----------------CORRECCION DE DATOS CON ERRORES &LIMPIEZA DE DATOS------------------------#
+
 datos[218,"Llamadas_realizadas"] <- 15
 datos[539,"Llamadas_realizadas"] <- 11
 datos[393,"Llamadas_realizadas"] <- 16
@@ -152,3 +155,75 @@ datos<- datos %>%
 filter(datos$Fecha_de_contacto>"2020-04-19")
 #Agregar mes del contacto
 datos$Mes_contacto<- months(datos$Fecha_de_contacto)
+#Agregar el dia al contacto
+datos$Dia_contacto <- weekdays(datos$Fecha_de_contacto)
+#Traducir para tablas y graficos
+  #Mes de contacto
+table(datos$Mes_contacto,useNA = "ifany")
+datos$Mes_contacto[datos$Mes_contacto=="April"] <- "Abril"
+datos$Mes_contacto[datos$Mes_contacto=="August"] <- "Agosto"
+datos$Mes_contacto[datos$Mes_contacto=="July"] <- "Julio"
+datos$Mes_contacto[datos$Mes_contacto=="June"] <- "Junio"
+datos$Mes_contacto[datos$Mes_contacto=="May"] <- "Mayo"
+datos$Mes_contacto[datos$Mes_contacto=="October"] <- "Octubre"
+datos$Mes_contacto[datos$Mes_contacto=="September"] <- "Septiembre"
+datos$Mes_contacto <- ordered(datos$Mes_contacto,
+                           levels=c("Abril","Mayo","Junio","Julio","Agosto",
+                                    "Septiembre","Octubre"))
+  #Dia de contacto
+table(datos$Dia_contacto,useNA = "ifany")
+datos$Dia_contacto[datos$Dia_contacto=="Friday"] <- "Viernes"
+datos$Dia_contacto[datos$Dia_contacto=="Monday"] <- "Lunes"
+datos$Dia_contacto[datos$Dia_contacto=="Saturday"] <- "Sábado"
+datos$Dia_contacto[datos$Dia_contacto=="Sunday"] <- "Domingo"
+datos$Dia_contacto[datos$Dia_contacto=="Thursday"] <- "Jueves"
+datos$Dia_contacto[datos$Dia_contacto=="Tuesday"] <- "Martes"
+datos$Dia_contacto[datos$Dia_contacto=="Wednesday"] <- "Miércoles"
+datos$Dia_contacto <- ordered(datos$Dia_contacto,
+                              levels=c("Lunes","Martes","Miércoles","Jueves","Viernes",
+                                       "Sábado","Domingo"))
+#Separar datos de la escuela y el Alto desempeño
+datos_alto <- datos %>%
+  filter(datos$Sede=="Capitalinos B-EMEFUT" |
+           datos$Sede=="Muniguate")
+datos_escuela <- datos %>%
+filter(datos$Sede!="Capitalinos B-EMEFUT" & 
+         datos$Sede!="Muniguate")
+#Eliminar de datos de la escuela NA de categoría
+table(is.na(datos_escuela$Categoría))
+datos_escuela<- datos_escuela %>%
+  filter(!is.na(datos_escuela$Categoría))
+
+#--------------------------ANALISIS DE DATOS-----------------------------------------------#
+#Un primer acercamiento a la data: fecha por mes y por dia
+  #Por mes
+ggplot(datos_escuela,
+       aes(Mes_contacto,fill=Categoría))+
+  theme_bw()+
+  geom_bar()+
+  geom_text(stat='count', 
+            aes(label=..count..),
+            position = position_stack(),
+            vjust=0)+
+  labs(title = "Reportes por Mes y Categoría",
+       x="Mes",
+       y="Cantidad de Reportes")
+  #Por día
+ggplot(datos_escuela,
+       aes(Dia_contacto,fill=Categoría))+
+  theme_bw()+
+  geom_bar()+
+  geom_text(stat='count', 
+            aes(label=..count..),
+            position = position_stack(),
+            vjust=0)+
+  labs(title = "Reportes por Día y Categoría",
+       x="Día",
+       y="Cantidad de Reportes")
+
+
+
+
+
+
+
