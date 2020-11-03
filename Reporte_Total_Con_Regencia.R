@@ -208,7 +208,7 @@ ggplot(datos_escuela,
   labs(title = "Reportes por Mes y Categoría",
        x="Mes",
        y="Cantidad de Reportes")
-  #Por día
+  #Por día de la semana
 ggplot(datos_escuela,
        aes(Dia_contacto,fill=Categoría))+
   theme_bw()+
@@ -220,10 +220,190 @@ ggplot(datos_escuela,
   labs(title = "Reportes por Día y Categoría",
        x="Día",
        y="Cantidad de Reportes")
+#Por mes
+  #Mes y número de entrenos
+ggplot(datos_escuela,
+       aes(Mes_contacto,`¿Cuántos_entrenamientos?`))+
+  theme_bw()+
+  geom_col()
+  #Mes y varias variables
+ggplot(datos_escuela,
+       aes(Fecha_de_contacto,`¿Cuántos_entrenamientos?`))+
+  theme_bw()+
+  geom_line()
+    #Transformar la data
+entrenos_x_mes<- datos_escuela %>%
+  group_by(Mes_contacto) %>%
+  summarise(Total_Entrenos=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+
+ggplot(entrenos_x_mes,
+       aes(Mes_contacto,Total_Entrenos))+
+  theme_bw()+
+  geom_col()
+
+#Fecha y todo tipo de contacto
+table(datos_escuela$Dia_contacto)
+
+datos_sin_findesemana<- datos_escuela %>%
+  filter(datos_escuela$Dia_contacto!="Sábado" &
+           datos_escuela$Dia_contacto!="Domingo")
+
+df1<- datos_sin_findesemana %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Mensajes_efectivos,na.rm = TRUE))
+df1<- df1 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20" &
+           Fecha_de_contacto!="2020-09-15")
+
+df2<- datos_sin_findesemana %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+df2<- df2 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+df3<- datos_sin_findesemana %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Llamadas_efectivas,na.rm = TRUE))
+df3<- df3 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+ggplot(df1,aes(Fecha_de_contacto,y))+geom_line(aes(color="Mensajes efectivos"))+
+  geom_line(data=df2,aes(color="Entrenos efectivos"))+
+  geom_line(data=df3,aes(color="Llamadas efectivas"))+
+  labs(color="Tipo de Contacto",
+       title = "Contactos Durante Teletrabajo 2020 EMEFUT (Abr-Oct)",
+       x= "Fecha de contacto",
+       y= "Cantidad")
+
+#Crear la base de datos de contactos por mes
+contacto_fecha1 <- df1
+contacto_fecha1$Tipo_Contacto <- NA
+contacto_fecha1$Tipo_Contacto="Mensajes"
+
+contacto_fecha2 <- df2
+contacto_fecha2$Tipo_Contacto <- NA
+contacto_fecha2$Tipo_Contacto="Entrenos"
+
+contacto_fecha3 <- df3
+contacto_fecha3$Tipo_Contacto <- NA
+contacto_fecha3$Tipo_Contacto="Llamadas"
+
+contacto_fecha_final <- rbind(contacto_fecha1,
+      contacto_fecha2,
+      contacto_fecha3)
+#Limpiar el area de trabajo
+rm(contacto_fecha1)
+rm(contacto_fecha2)
+rm(contacto_fecha3)
+rm(df1)
+rm(df2)
+rm(df3)
+
+#Ponerles mes
+contacto_fecha_final$Mes_contacto <- NA
+contacto_fecha_final$Mes_contacto<- months(contacto_fecha_final$Fecha_de_contacto)
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="April"] <- "Abril"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="August"] <- "Agosto"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="July"] <- "Julio"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="June"] <- "Junio"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="May"] <- "Mayo"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="October"] <- "Octubre"
+contacto_fecha_final$Mes_contacto[contacto_fecha_final$Mes_contacto=="September"] <- "Septiembre"
+contacto_fecha_final$Mes_contacto <- ordered(contacto_fecha_final$Mes_contacto,
+                              levels=c("Abril","Mayo","Junio","Julio","Agosto",
+                                       "Septiembre","Octubre"))
+ggplot(contacto_fecha_final,
+       aes(x=Mes_contacto,y=y,fill=Tipo_Contacto))+
+  theme_bw()+
+  geom_col()+
+  labs(title = "Cantidad de Contactos por Mes y Tipo (Abr-Oct, 2020)",
+       y="Cantidad",
+       x="Mes de contacto")
+
+datos_por_mes <- contacto_fecha_final %>%
+  group_by(Mes_contacto,Tipo_Contacto) %>%
+  summarise(Total=sum(y,na.rm = TRUE))
+
+write.csv(datos_por_mes,
+          file = "Tabla de contactos por mes y tipo")
+
+#Trabajo diario
+contacto_fecha_final$Dia_contacto <- NA
+contacto_fecha_final$Dia_contacto<- weekdays(contacto_fecha_final$Fecha_de_contacto)
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Friday"] <- "Viernes"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Monday"] <- "Lunes"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Saturday"] <- "Sábado"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Sunday"] <- "Domingo"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Thursday"] <- "Jueves"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Tuesday"] <- "Martes"
+contacto_fecha_final$Dia_contacto[contacto_fecha_final$Dia_contacto=="Wednesday"] <- "Miércoles"
+contacto_fecha_final$Dia_contacto <- ordered(contacto_fecha_final$Dia_contacto,
+                              levels=c("Lunes","Martes","Miércoles","Jueves","Viernes",
+                                       "Sábado","Domingo"))
+#Promedio de trabajo diario
+contacto_promedio_sede <-  contacto_fecha_final %>%
+  group_by(Mes_contacto,Tipo_Contacto) %>%
+  summarise(Contacto_promedio=mean(y),
+            Promedio_sede=mean(y)/19)
+
+ggplot(contacto_promedio_sede, 
+       aes(x = interaction(Mes_contacto,Tipo_Contacto), y = Promedio_sede,
+           fill=Tipo_Contacto))+
+  geom_bar(stat = "identity", position = position_dodge())+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+write.csv(contacto_promedio_sede,
+          file = "Contactos promedio por mes")
 
 
+#Analisis por sede
+contactos_sede_promedio <- datos_sin_findesemana %>%
+  group_by(Sede) %>%
+  summarise(Mensajes=sum(Mensajes_efectivos,na.rm = TRUE),
+            Entrenos=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE),
+            Llamadas=sum(Llamadas_efectivas,na.rm = TRUE),
+            Promedio_mens=mean(Mensajes_efectivos,na.rm = TRUE),
+            Promedio_entr=mean(`¿Cuántos_entrenamientos?`,na.rm = TRUE),
+            Promedio_llamadas=mean(Llamadas_efectivas,na.rm = TRUE))
 
+df1<- contactos_sede_promedio %>%
+  select(Sede,y=Mensajes)
+df1$Tipo_contacto <- NA
+df1$Tipo_contacto <- "Mensajes"
 
+df2<- contactos_sede_promedio %>%
+  select(Sede,y=Entrenos)
+df2$Tipo_contacto <- NA
+df2$Tipo_contacto <- "Entrenos"
 
+df3<- contactos_sede_promedio %>%
+  select(Sede,y=Llamadas)
+df3$Tipo_contacto <- NA
+df3$Tipo_contacto <- "Llamadas"
 
+contacto_sede_final<- rbind(df1,df2,df3)
+#Limpiar area de trabajo
+rm(df1)
+rm(df2)
+rm(df3)
+#Grafica
+ggplot(contacto_sede_final,
+       aes(x=Sede,y=y,fill=factor(Tipo_contacto)))+
+  geom_bar(stat="identity",position="dodge")+
+  scale_fill_discrete(name="Tipo de contacto")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  labs(title = "Contactos Teletrabajo EMEFUT 2020 por Sede y Tipo",
+       y="Cantidad de contactos")
+
+#Tabla por sede y tipo
+write.csv(contactos_sede_promedio,
+          file = "Tabla de contactos por sede con promedio")
 
