@@ -407,3 +407,158 @@ ggplot(contacto_sede_final,
 write.csv(contactos_sede_promedio,
           file = "Tabla de contactos por sede con promedio")
 
+#Analisis de datos de la nueva normalidad
+table(datos_sin_findesemana$`¿Entreno_nueva_normalidad?`, useNA = "ifany")
+datos_nueva_normalidad <- datos_sin_findesemana %>%
+  filter(`¿Entreno_nueva_normalidad?`=="Sí")
+
+table(datos_nueva_normalidad$Atendidos_nueva_normalidad, useNA = "ifany")
+datos_nueva_normalidad<- datos_nueva_normalidad %>%
+  filter(!is.na(datos_nueva_normalidad$Atendidos_nueva_normalidad))
+
+table(datos_nueva_normalidad$Categoría)
+datos_nueva_normalidad <- datos_nueva_normalidad %>%
+  filter(datos_nueva_normalidad$Categoría!="Moscos")
+  
+plan_piloto_nn <- datos_nueva_normalidad %>%
+  group_by(Sede,Categoría) %>%
+  summarise(Cantidad_reportes=n(),
+            Total_Turnos=sum(`¿Turnos_nueva_normalidad?`,na.rm = TRUE),
+            Promedio_Turnos=mean(`¿Turnos_nueva_normalidad?`,na.rm = TRUE),
+            Total_Atendidos=sum(Atendidos_nueva_normalidad,na.rm = TRUE),
+            Promedio_Atendidos=mean(Atendidos_nueva_normalidad,na.rm = TRUE),
+            Promedio_Atendidos_Turno=Total_Atendidos/Total_Turnos)
+
+ggplot(plan_piloto_nn,
+       aes(x=Sede,y=Total_Atendidos,fill=Categoría))+
+  geom_col()+
+  labs(title = "Atendidos en plan piloto por sede y categoría",
+       y="Atendidos")
+
+write.csv(plan_piloto_nn,
+          file = "Tabla de resultados del plan piloto nn")
+
+plan_piloto_solo_sedes <- datos_nueva_normalidad %>%
+  group_by(Sede) %>%
+  summarise(Cantidad_reportes=n(),
+            Total_Turnos=sum(`¿Turnos_nueva_normalidad?`,na.rm = TRUE),
+            Promedio_Turnos=mean(`¿Turnos_nueva_normalidad?`,na.rm = TRUE),
+            Total_Atendidos=sum(Atendidos_nueva_normalidad,na.rm = TRUE),
+            Promedio_Atendidos=mean(Atendidos_nueva_normalidad,na.rm = TRUE),
+            Promedio_Atendidos_Turno=Total_Atendidos/Total_Turnos)
+write.csv(plan_piloto_solo_sedes,
+          file="Tabla de resultaods plan piloto por sede")  
+#Limpiar mi área de trabajo
+rm(contacto_fecha_final)
+rm(contacto_promedio_sede)
+rm(contacto_sede_final)
+rm(contactos_sede_promedio)
+rm(plan_piloto_nn)
+rm(plan_piloto_solo_sedes)
+#Alto desempeño - Gráficos y tablas
+datos_alto %>%
+  filter(datos_alto$Dia_contacto!="Sábado" &
+           datos_alto$Dia_contacto!="Domingo")
+
+df1<- datos_alto %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Mensajes_efectivos,na.rm = TRUE))
+df1<- df1 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20" &
+           Fecha_de_contacto!="2020-09-15")
+
+df2<- datos_alto %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+df2<- df2 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+df3<- datos_alto %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Llamadas_efectivas,na.rm = TRUE))
+df3<- df3 %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+ggplot(df1,aes(Fecha_de_contacto,y))+geom_line(aes(color="Mensajes efectivos"))+
+  geom_line(data=df2,aes(color="Entrenos efectivos"))+
+  geom_line(data=df3,aes(color="Llamadas efectivas"))+
+  labs(color="Tipo de Contacto",
+       title = "Contactos Durante Teletrabajo Alto Desempeño 2020 EMEFUT (Abr-Oct)",
+       x= "Fecha de contacto",
+       y= "Cantidad")
+
+rm(df1)
+rm(df2)
+rm(df3)
+
+#Limpiar los datos de Alto Desempeño
+datos_alto_sindescansos <- datos_alto %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+#Nueva base de datos para grafico alto desempeño
+df1<- datos_alto_sindescansos %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Mensajes_efectivos,na.rm = TRUE))
+
+df2<- datos_alto_sindescansos %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+
+df3<- datos_alto_sindescansos %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Llamadas_efectivas,na.rm = TRUE))
+
+contacto_ad_fecha1 <- df1
+contacto_ad_fecha1$Tipo_Contacto <- NA
+contacto_ad_fecha1$Tipo_Contacto="Mensajes"
+
+contacto_ad_fecha2 <- df2
+contacto_ad_fecha2$Tipo_Contacto <- NA
+contacto_ad_fecha2$Tipo_Contacto="Entrenos"
+
+contacto_ad_fecha3 <- df3
+contacto_ad_fecha3$Tipo_Contacto <- NA
+contacto_ad_fecha3$Tipo_Contacto="Llamadas"
+
+contacto_ad_fecha_final <- rbind(contacto_ad_fecha1,
+                              contacto_ad_fecha2,
+                              contacto_ad_fecha3)
+
+contacto_ad_fecha_final$Mes_contacto <- NA
+contacto_ad_fecha_final$Mes_contacto<- months(contacto_ad_fecha_final$Fecha_de_contacto)
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="April"] <- "Abril"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="August"] <- "Agosto"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="July"] <- "Julio"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="June"] <- "Junio"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="May"] <- "Mayo"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="October"] <- "Octubre"
+contacto_ad_fecha_final$Mes_contacto[contacto_ad_fecha_final$Mes_contacto=="September"] <- "Septiembre"
+contacto_ad_fecha_final$Mes_contacto <- ordered(contacto_ad_fecha_final$Mes_contacto,
+                                             levels=c("Abril","Mayo","Junio","Julio","Agosto",
+                                                      "Septiembre","Octubre"))
+
+ggplot(contacto_ad_fecha_final,
+       aes(x=Mes_contacto,y=y,fill=Tipo_Contacto))+
+  theme_bw()+
+  geom_col()+
+  scale_fill_discrete(name="Tipo de contacto")+
+  labs(title = "Cantidad de Contactos Alto Desempeño por Mes y Tipo (Abr-Oct, 2020)",
+       y="Cantidad",
+       x="Mes de contacto")
+  
+
+
+
+
+
