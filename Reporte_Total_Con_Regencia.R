@@ -662,6 +662,10 @@ ggplot(regencia_llamadas,
   labs(y="Cantidad de contactos",
        title = "Llamadas Enviados Regencia Abr-Oct 2020")
 
+#Limpiar area de trabajo
+rm(df1)
+rm(df2)
+rm(df3)
 
 
 
