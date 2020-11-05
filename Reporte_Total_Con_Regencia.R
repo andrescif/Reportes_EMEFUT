@@ -455,6 +455,7 @@ rm(contacto_sede_final)
 rm(contactos_sede_promedio)
 rm(plan_piloto_nn)
 rm(plan_piloto_solo_sedes)
+
 #Alto desempeño - Gráficos y tablas
 datos_alto %>%
   filter(datos_alto$Dia_contacto!="Sábado" &
@@ -557,6 +558,110 @@ ggplot(contacto_ad_fecha_final,
        y="Cantidad",
        x="Mes de contacto")
   
+
+#Datos de la regencia nada más
+datos_sin_findesemana$Regencia <- NA
+datos_sin_findesemana$Regencia[datos_sin_findesemana$Sede=="Maestro"] <- 1  
+datos_sin_findesemana$Regencia[datos_sin_findesemana$Sede=="Alameda"] <- 1  
+datos_sin_findesemana$Regencia[datos_sin_findesemana$Sede=="Limón"] <- 1  
+datos_sin_findesemana$Regencia[datos_sin_findesemana$Sede=="Paraiso 2"] <- 1  
+table(datos_sin_findesemana$Regencia)
+
+datos_regencia<- datos_sin_findesemana %>%
+  filter(datos_sin_findesemana$Regencia==1)
+
+datos_regencia<- datos_regencia %>%
+  filter(Fecha_de_contacto!="2020-05-01" &
+           Fecha_de_contacto!="2020-06-29" &
+           Fecha_de_contacto!="2020-10-20"&
+           Fecha_de_contacto!="2020-09-15")
+
+df1<- datos_regencia %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Mensajes_efectivos,na.rm = TRUE))
+
+df2<- datos_regencia %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+
+df3<- datos_regencia %>%
+  group_by(Fecha_de_contacto) %>%
+  summarise(y=sum(Llamadas_efectivas,na.rm = TRUE))
+
+contacto_regencia_fecha1 <- df1
+contacto_regencia_fecha1$Tipo_Contacto <- NA
+contacto_regencia_fecha1$Tipo_Contacto="Mensajes"
+
+contacto_regencia_fecha2 <- df2
+contacto_regencia_fecha2$Tipo_Contacto <- NA
+contacto_regencia_fecha2$Tipo_Contacto="Entrenos"
+
+contacto_regencia_fecha3 <- df3
+contacto_regencia_fecha3$Tipo_Contacto <- NA
+contacto_regencia_fecha3$Tipo_Contacto="Llamadas"
+
+contacto_regencia_fecha_final <- rbind(contacto_regencia_fecha1,
+                                 contacto_regencia_fecha2,
+                                 contacto_regencia_fecha3)
+
+contacto_regencia_fecha_final$Mes_contacto <- NA
+contacto_regencia_fecha_final$Mes_contacto<- months(contacto_regencia_fecha_final$Fecha_de_contacto)
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="April"] <- "Abril"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="August"] <- "Agosto"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="July"] <- "Julio"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="June"] <- "Junio"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="May"] <- "Mayo"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="October"] <- "Octubre"
+contacto_regencia_fecha_final$Mes_contacto[contacto_regencia_fecha_final$Mes_contacto=="September"] <- "Septiembre"
+contacto_regencia_fecha_final$Mes_contacto <- ordered(contacto_regencia_fecha_final$Mes_contacto,
+                                                levels=c("Abril","Mayo","Junio","Julio","Agosto",
+                                                         "Septiembre","Octubre"))
+
+ggplot(contacto_regencia_fecha_final,
+       aes(x=Mes_contacto,y=y,fill=Tipo_Contacto))+
+  theme_bw()+
+  geom_col()+
+  scale_fill_discrete(name="Tipo de contacto")+
+  labs(title = "Cantidad de Contactos Regencia por Mes y Tipo (Abr-Oct, 2020)",
+       y="Cantidad",
+       x="Mes de contacto")
+sum(contacto_regencia_fecha_final$y)
+
+#Contactos de regencia por sede y por tipo
+regencia_mensajes<- datos_regencia %>%
+  group_by(Sede) %>%
+  summarise(y=sum(Mensajes_efectivos,na.rm = TRUE))
+
+regencia_entrenos <- datos_regencia %>%
+  group_by(Sede) %>%
+  summarise(y=sum(`¿Cuántos_entrenamientos?`,na.rm = TRUE))
+
+regencia_llamadas <- datos_regencia %>%
+  group_by(Sede) %>%
+  summarise(y=sum(Llamadas_efectivas,na.rm = TRUE))
+
+#Graficos de regencia por sede y tipo
+ggplot(regencia_mensajes,
+       aes(x=Sede,y=y))+
+  theme_bw()+
+  geom_col()+
+  labs(y="Cantidad de contactos",
+       title = "Mensajes Enviados Regencia Abr-Oct 2020")
+
+ggplot(regencia_entrenos,
+       aes(x=Sede,y=y))+
+  theme_bw()+
+  geom_col()+
+  labs(y="Cantidad de contactos",
+       title = "Entrenos Enviados Regencia Abr-Oct 2020")
+
+ggplot(regencia_llamadas,
+       aes(x=Sede,y=y))+
+  theme_bw()+
+  geom_col()+
+  labs(y="Cantidad de contactos",
+       title = "Llamadas Enviados Regencia Abr-Oct 2020")
+
 
 
 
