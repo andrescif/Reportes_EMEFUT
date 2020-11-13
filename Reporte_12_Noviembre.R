@@ -73,9 +73,17 @@ Informe_Primera_Quincena_noviembre <- datos_noviembre %>%
 #Limpiar la tabla
 Informe_Primera_Quincena_noviembre <- subset.data.frame(Informe_Primera_Quincena_noviembre,
                                                       !is.na(Informe_Primera_Quincena_noviembre$Categoría))
+Alto_desempeño_Primera_Quincena_Noviembre <- subset.data.frame(Informe_Primera_Quincena_noviembre,
+                                                               is.na(Informe_Primera_Quincena_noviembre$Categoría))
+Alto_desempeño_Primera_Quincena_Noviembre=Alto_desempeño_Primera_Quincena_Noviembre[-1,]
+Alto_desempeño_Primera_Quincena_Noviembre=Alto_desempeño_Primera_Quincena_Noviembre[-2,]
+Alto_desempeño_Primera_Quincena_Noviembre=Alto_desempeño_Primera_Quincena_Noviembre[-3,]
+Alto_desempeño_Primera_Quincena_Noviembre=Alto_desempeño_Primera_Quincena_Noviembre[-4,]
 #Tabla de informe
 write.csv(Informe_Primera_Quincena_noviembre,
           file = "Tabla Primera Quincena Noviembre")
+write.csv(Alto_desempeño_Primera_Quincena_Noviembre,
+          file = "Tabla Alto Desempeño Primera Quincena Noviembre")
 rm(list = ls())
 
 
